@@ -1,1 +1,0 @@
-# watir-rspec_HybridFramework
