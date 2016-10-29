@@ -85,8 +85,8 @@ class ExcelLib
   end
 
   def getTestcaseCount sheetName,testscenID,testCaseStart
-    @testCasesheet = @book.worksheet sheetName
-    for row in testCaseStart...@testCasesheet.row_count
+    testCasesheet = @book.worksheet sheetName
+    for row in testCaseStart...testCasesheet.row_count
       # puts 'Printing scenario id we are searching for : ',testscenID
       if testscenID!=getCelldata(row,0,sheetName)
         lastrow=row
@@ -95,7 +95,17 @@ class ExcelLib
       end
     end
     # puts 'To test last row return 2'
-    return @testCasesheet.row_count
+    return testCasesheet.row_count
+  end
+
+  def getTestdata testcase,sheetName
+    dataset= Hash.new
+    testCasesheet = @book.worksheet sheetName
+    row=getRowContains(testcase,getcellIndex("Test Case",sheetName),sheetName)
+    for col in 1...testCasesheet.row(row).size
+      dataset.store(getCelldata(0,col,sheetName),getCelldata(row,col,sheetName))
+    end
+    return dataset
   end
 
   def getCelldata rownum,collnum,sheetName
