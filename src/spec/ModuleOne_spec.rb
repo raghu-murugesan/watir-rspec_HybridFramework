@@ -21,8 +21,11 @@ def getTestCases testScenario
   return testcases
 end
 
-def getData testScenario
-  puts "To get data from sheet for  #{testScenario}"
+def getTestdata testcase,sheetName
+  puts "To get data from sheet for  #{testcase}"
+  module_excel=getModuleBook
+  dataset=module_excel.getTestdata testcase,sheetName
+  return dataset
 end
 
 describe 'To test Rspec and spread sheet features' do
@@ -45,11 +48,11 @@ describe 'To test Rspec and spread sheet features' do
        if  setup_excel.scenarioEnabled 'Scenario One'
          testcases=getTestCases 'Scenario One'
          puts testcases
-
          testcases.each do |testcase|
            it 'test_ruby_rspec with scenario one '+testcase do
              puts 'S1 started with '+testcase
-             getData testcase
+             dataset=getTestdata testcase,'Scenario One'
+             puts dataset
              puts 'this is a test for '+testcase
              puts 'S1 Ended with '+testcase
            end
@@ -64,11 +67,11 @@ describe 'To test Rspec and spread sheet features' do
     if  setup_excel.scenarioEnabled 'Scenario Two'
       testcases=getTestCases 'Scenario Two'
       puts testcases
-
       testcases.each do |testcase|
         it 'test_ruby_rspec with scenario one '+testcase do
           puts 'S2 started with '+testcase
-          getData testcase
+          dataset=getTestdata testcase,'Scenario Two'
+          puts dataset
           puts 'this is a test for '+testcase
           puts 'S2 Ended with '+testcase
         end
